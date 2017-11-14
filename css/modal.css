@@ -1,0 +1,22 @@
+/* Remove the navbar's default rounded borders and increase the bottom margin */ 
+.navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+
+/* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+	
+.modal-header, h4, .close {
+      background-color: #5cb85c;
+      color:white !important;
+      text-align: center;
+      font-size: 30px;
+  }
+
+.modal-footer {
+      background-color: #f9f9f9;
+  }

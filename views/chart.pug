@@ -1,0 +1,106 @@
+doctype html
+html(lang='en')
+  head
+    title GrocMan
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(src='/chart.js/dist/Chart.js')
+    link(rel='stylesheet', href='/modal.css')
+  body
+    div
+      img.img-responsive(src='/images/grocman-banner.jpg', alt='Chania', width='100%', height='600')
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#myNavbar')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        #myNavbar.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/index') Home
+            li
+              a(href='/index') Contact
+            li
+              a(href='/signout') Sign Out
+          ul.nav.navbar-nav.navbar-right
+            li
+              a.btn.btn(data-toggle='modal', data-target='#myModal', style='float: right;')
+                span.glyphicon.glyphicon-plus
+                |  Add Grocery
+    canvas#myChart
+       script.
+         var ctx = document.getElementById("myChart").getContext('2d');
+         for ( x in !{y_axis}) { 
+           console.log(x);
+         }
+         var myChart = new Chart(ctx, {
+         type: 'line',
+         data: { 
+            labels: !{x_axis},
+            datasets: [{
+            label: 'Consumption in LBs',
+            data: !{y_axis},
+            borderColor: "#3e95cd",
+            fill: true
+         }]
+         },
+         options: {
+           title: { 
+           display: true,
+           text: '!{device}'
+           }
+         }
+         });
+    br
+    footer.container-fluid.text-center
+      p Copyright © GrocMan 2017
+      // Modal
+    #myModal.modal.fade(role='dialog')
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header(style='padding:35px 50px;')
+            button.close(type='button', data-dismiss='modal') ×
+            h4
+              span.glyphicon.glyphicon-plus
+              |  ADD GROCERY
+          .modal-body(style='padding:40px 50px;')
+            form(role='form',method='POST',action='/saveitem')
+              .form-group
+                label(for='asin')
+                  span.glyphicon.glyphicon-barcode
+                  |  ASIN
+                input#asin.form-control(type='text', placeholder='Enter ASIN', name='asin')
+              .form-group
+                label(for='itemName')
+                  span.glyphicon.glyphicon-edit
+                  |  Item Name
+                input#itemName.form-control(type='text', placeholder='Enter item name', name='itemName')
+              .form-group
+                label(for='wt')
+                  span.glyphicon.glyphicon-scale
+                  |  Weight (in LBs)
+                input#wt.form-control(type='text', placeholder='Enter weight', name='wt')
+              .form-group
+                label(for='halfMark')
+                  span.glyphicon.glyphicon-alert
+                  |  Threshhold
+                input#halfMark.form-control(type='text', placeholder='Enter threshhold', name='halfMark')
+              button.btn.btn-success.btn-block(type='submit')
+                span.glyphicon.glyphicon-save
+                |  Save
+          .modal-footer
+            button.btn.btn-danger.btn-default.pull-left(type='submit', data-dismiss='modal')
+              span.glyphicon.glyphicon-remove
+              |  Cancel
+    script.
+      $(document).ready(function(){
+      $("#myBtn").click(function(){
+      $("#myModal").modal();
+      });
+      });
